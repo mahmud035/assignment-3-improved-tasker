@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Footer from '../Footer';
 import NavWithSearch from '../NavWithSearch';
 
@@ -13,16 +14,44 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
       isFavorite: false,
     }
   );
-  const [isAdd, setIsAdd] = useState(Object.is(taskToUpdate, null));
+  const isAdd = Object.is(taskToUpdate, null);
+
+  //* event handlers
+  const handleChange = (e) => {
+    const name = e.target.name;
+    let value = e.target.value;
+
+    if (name === 'tags') {
+      value = value.split(',');
+    }
+
+    setTask({
+      ...task,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      task.title === '' ||
+      task.description === '' ||
+      task.tags.length === 0 ||
+      task.priority === ''
+    ) {
+      return toast.warn('Please Fill All The Fields!');
+    }
+
+    handleAddAndEditTask(task, isAdd);
+  };
 
   return (
     <>
       <NavWithSearch />
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+        onSubmit={handleSubmit}
         className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11"
       >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
@@ -33,22 +62,24 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="title">Title</label>
             <input
+              onChange={handleChange}
               className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
               type="text"
               name="title"
               id="title"
-              required
+              // required
             />
           </div>
 
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="description">Description</label>
             <textarea
+              onChange={handleChange}
               className="block min-h-[120px] w-full rounded-md bg-[#2D323F] px-3 py-2.5 lg:min-h-[180px]"
               type="text"
               name="description"
               id="description"
-              required
+              // required
             ></textarea>
           </div>
 
@@ -56,21 +87,24 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="tags">Tags</label>
               <input
+                onChange={handleChange}
                 className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
                 type="text"
                 name="tags"
                 id="tags"
-                required
+                placeholder="python, javascript, java"
+                // required
               />
             </div>
 
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="priority">Priority</label>
               <select
+                onChange={handleChange}
                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                 name="priority"
                 id="priority"
-                required
+                // required
               >
                 <option value="">Select Priority</option>
                 <option value="low">Low</option>
@@ -81,9 +115,15 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
           </div>
         </div>
 
-        <div className="flex justify-center mt-16 lg:mt-20">
+        <div className="flex justify-around mt-16 lg:mt-20">
           <button
-            onClick={() => handleAddAndEditTask(task, isAdd)}
+            onClick={() => setShowModal(false)}
+            type="submit"
+            className="px-4 py-2 text-white transition-all bg-red-600 rounded hover:opacity-80"
+          >
+            Close
+          </button>
+          <button
             type="submit"
             className="px-4 py-2 text-white transition-all bg-blue-600 rounded hover:opacity-80"
           >

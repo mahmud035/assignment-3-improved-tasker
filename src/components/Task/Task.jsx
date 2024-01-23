@@ -1,12 +1,11 @@
 import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
+import { generateHexColor } from '../../utils/task-utility';
 
 const Task = ({ task }) => {
   const { searchText } = useTasks();
   const dispatch = useTasksDispatch();
   const { title, description, tags, priority, isFavorite } = task;
-
-  console.log(searchText);
 
   //* event handlers
   const handleToggleFavorite = () => {
@@ -54,6 +53,7 @@ const Task = ({ task }) => {
         </svg>
       </td>
       <td>
+        {/* Apply color to matched searchText */}
         {searchText
           ? title.split(new RegExp(`(${searchText})`, 'i')).map((char, i) =>
               char.toLowerCase() === searchText.toLowerCase() ? (
@@ -73,7 +73,10 @@ const Task = ({ task }) => {
         <ul className="flex justify-center gap-1.5 flex-wrap">
           {tags?.map((tag, index) => (
             <li key={index}>
-              <span className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
+              <span
+                className="inline-block h-5 whitespace-nowrap rounded-[45px] px-2.5 text-sm capitalize text-[#F4F5F6]"
+                style={{ backgroundColor: generateHexColor() }}
+              >
                 {tag}
               </span>
             </li>

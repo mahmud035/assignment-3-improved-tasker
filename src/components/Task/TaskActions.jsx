@@ -14,7 +14,7 @@ const TaskActions = ({ setShowModal }) => {
       setSearchedTasks([...tasks]); // Show all task if searchTerm is empty
     } else {
       const filtered = tasks.filter(
-        (task) => task.title.trim().toLowerCase().includes(searchTerm) // Filter tasks based on searchTerm
+        (task) => task.title.toLowerCase().includes(searchTerm) // Filter tasks based on searchTerm
       );
       setSearchedTasks(filtered);
     }
@@ -48,6 +48,8 @@ const TaskActions = ({ setShowModal }) => {
                 required
               />
               <button
+                //* Not Needed
+                // onSubmit={(e) => handleSearchTasks(e)}
                 type="submit"
                 className="absolute top-0 h-full text-white right-2 rounded-e-lg md:right-4"
               >
