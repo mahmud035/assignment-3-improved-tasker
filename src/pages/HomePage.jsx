@@ -11,22 +11,33 @@ const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
 
+  //* event handlers
   const handleAddAndEditTask = (newTask, isAdd) => {
     console.log(newTask);
-    // console.log(isAdd);
+    console.log(isAdd);
 
     if (isAdd) {
       dispatch({
         type: 'ADD_TASK',
-        payload: {
-          ...newTask,
-        },
+        payload: newTask,
       });
 
       toast.success('Task Added Successfully!');
+    } else {
+      dispatch({
+        type: 'CHANGED',
+        payload: newTask,
+      });
+
+      toast.success('Task Updated Successfully!');
     }
 
     setShowModal(false);
+  };
+
+  const handleEditTask = (task) => {
+    setTaskToUpdate(task);
+    setShowModal(true);
   };
 
   return (
@@ -35,14 +46,18 @@ const HomePage = () => {
         <>
           <AddTaskModal
             setShowModal={setShowModal}
-            handleAddAndEditTask={handleAddAndEditTask}
             taskToUpdate={taskToUpdate}
+            handleAddAndEditTask={handleAddAndEditTask}
           />
         </>
       ) : (
         <>
           <Header />
-          <TaskBoard setShowModal={setShowModal} />
+          <TaskBoard
+            setShowModal={setShowModal}
+            setTaskToUpdate={setTaskToUpdate}
+            handleEditTask={handleEditTask}
+          />
           <Footer />
         </>
       )}

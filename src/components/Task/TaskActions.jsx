@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 
-const TaskActions = ({ setShowModal }) => {
-  const { tasks, setSearchedTasks, setSearchText } = useTasks();
+const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
+  const { tasks, setSearchText } = useTasks();
   const dispatch = useTasksDispatch();
 
   //* event handlers
@@ -11,12 +11,18 @@ const TaskActions = ({ setShowModal }) => {
     setSearchText(searchTerm);
 
     if (searchTerm === '') {
-      setSearchedTasks([...tasks]); // Show all task if searchTerm is empty
+      dispatch({
+        type: 'SEARCH_TASKS',
+        payload: [], // Empty array means show all tasks
+      });
     } else {
-      const filtered = tasks.filter(
-        (task) => task.title.toLowerCase().includes(searchTerm) // Filter tasks based on searchTerm
+      const filtered = tasks.filter((task) =>
+        task.title.toLowerCase().includes(searchTerm)
       );
-      setSearchedTasks(filtered);
+      dispatch({
+        type: 'SEARCH_TASKS',
+        payload: filtered,
+      });
     }
   };
 
@@ -74,7 +80,10 @@ const TaskActions = ({ setShowModal }) => {
           </div>
         </form>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setTaskToUpdate(null);
+            setShowModal(true);
+          }}
           className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold"
         >
           Add Task

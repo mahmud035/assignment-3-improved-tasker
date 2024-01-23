@@ -3,7 +3,7 @@ import NoTaskFound from './NoTaskFound';
 import TaskActions from './TaskActions';
 import TaskList from './TaskList';
 
-const TaskBoard = ({ setShowModal }) => {
+const TaskBoard = ({ setShowModal, setTaskToUpdate, handleEditTask }) => {
   const { tasks } = useTasks();
 
   return (
@@ -11,15 +11,18 @@ const TaskBoard = ({ setShowModal }) => {
       <section className="mb-20" id="tasks">
         <div className="container">
           <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-            <TaskActions setShowModal={setShowModal} />
+            <TaskActions
+              setShowModal={setShowModal}
+              setTaskToUpdate={setTaskToUpdate}
+            />
 
-            {tasks.length === 0 ? (
+            {tasks?.length === 0 ? (
               <>
                 <NoTaskFound />
               </>
             ) : (
               <>
-                <TaskList />
+                <TaskList handleEditTask={handleEditTask} />
               </>
             )}
           </div>

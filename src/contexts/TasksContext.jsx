@@ -1,20 +1,22 @@
 import { createContext, useContext, useReducer, useState } from 'react';
-import { initialTasks } from '../data/tasks';
-import { tasksReducer } from '../reducers/tasksReducer';
+import { initialState, tasksReducer } from '../reducers/tasksReducer';
 
 //* Create Context API
 export const TasksContext = createContext(null);
 export const TasksDispatchContext = createContext(null);
 
 const TasksProvider = ({ children }) => {
-  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
-  const [searchedTasks, setSearchedTasks] = useState([]);
+  const [state, dispatch] = useReducer(tasksReducer, initialState);
+  const tasks = state.tasks;
+  const searchedTasks = state.searchedTasks;
   const [searchText, setSearchText] = useState(null);
+
+  console.log('tasks =>', tasks);
+  console.log('searchedTasks =>', searchedTasks);
 
   const tasksInfo = {
     tasks,
     searchedTasks,
-    setSearchedTasks,
     searchText,
     setSearchText,
   };

@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 import { generateHexColor } from '../../utils/task-utility';
 
-const Task = ({ task }) => {
+const Task = ({ task, handleEditTask }) => {
   const { searchText } = useTasks();
   const dispatch = useTasksDispatch();
   const { title, description, tags, priority, isFavorite } = task;
@@ -92,7 +92,12 @@ const Task = ({ task }) => {
           >
             Delete
           </button>
-          <button className="text-blue-500">Edit</button>
+          <button
+            onClick={() => handleEditTask(task)}
+            className="text-blue-500"
+          >
+            Edit
+          </button>
         </div>
       </td>
     </tr>

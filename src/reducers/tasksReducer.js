@@ -1,22 +1,48 @@
-const tasksReducer = (tasks, action) => {
+import { initialTasks } from '../data/tasks';
+
+// Initial State
+const initialState = {
+  tasks: [...initialTasks],
+  searchedTasks: [],
+};
+
+// Reducer Function
+const tasksReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TASK': {
-      return [...tasks, action.payload];
+      return {
+        tasks: [...state.tasks, action.payload],
+      };
     }
     case 'CHANGED': {
-      return tasks.map((task) => {
-        if (task.id === action.payload.id) {
-          return action.payload;
-        } else {
-          return task;
-        }
-      });
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return task;
+          }
+        }),
+      };
     }
     case 'DELETE_TASK': {
-      return tasks.filter((task) => task.id !== action.payload.id);
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+      };
     }
     case 'DELETE_ALL_TASK': {
-      return [];
+      return {
+        ...state,
+        tasks: [],
+      };
+    }
+    case 'SEARCH_TASKS': {
+      return {
+        ...state,
+        searchedTasks: action.payload,
+      };
     }
     default: {
       throw Error('Unknown action: ' + action.type);
@@ -24,4 +50,4 @@ const tasksReducer = (tasks, action) => {
   }
 };
 
-export { tasksReducer };
+export { initialState, tasksReducer };

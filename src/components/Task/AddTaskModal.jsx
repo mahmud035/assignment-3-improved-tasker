@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import Footer from '../Footer';
 import NavWithSearch from '../NavWithSearch';
 
-const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
+const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
   const [task, setTask] = useState(
     taskToUpdate || {
       id: crypto.randomUUID(),
@@ -15,6 +15,9 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
     }
   );
   const isAdd = Object.is(taskToUpdate, null);
+
+  console.log('task =>', task);
+  console.log('taskToUpdate =>', taskToUpdate);
 
   //* event handlers
   const handleChange = (e) => {
@@ -35,15 +38,16 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
     e.preventDefault();
 
     if (
-      task.title === '' ||
-      task.description === '' ||
+      task.title.trim() === '' ||
+      task.description.trim() === '' ||
       task.tags.length === 0 ||
-      task.priority === ''
+      task.tags[0] === '' ||
+      task.priority.trim() === ''
     ) {
       return toast.warn('Please Fill All The Fields!');
+    } else {
+      handleAddAndEditTask(task, isAdd);
     }
-
-    handleAddAndEditTask(task, isAdd);
   };
 
   return (
@@ -62,6 +66,7 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="title">Title</label>
             <input
+              value={task.title}
               onChange={handleChange}
               className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
               type="text"
@@ -74,6 +79,7 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="description">Description</label>
             <textarea
+              value={task.description}
               onChange={handleChange}
               className="block min-h-[120px] w-full rounded-md bg-[#2D323F] px-3 py-2.5 lg:min-h-[180px]"
               type="text"
@@ -87,6 +93,7 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="tags">Tags</label>
               <input
+                value={task.tags}
                 onChange={handleChange}
                 className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
                 type="text"
@@ -100,6 +107,7 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="priority">Priority</label>
               <select
+                value={task.priority}
                 onChange={handleChange}
                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                 name="priority"
@@ -107,9 +115,9 @@ const AddTaskModal = ({ setShowModal, handleAddAndEditTask, taskToUpdate }) => {
                 // required
               >
                 <option value="">Select Priority</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
               </select>
             </div>
           </div>
