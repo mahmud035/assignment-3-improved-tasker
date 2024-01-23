@@ -1,8 +1,24 @@
 import { toast } from 'react-toastify';
-import { useTasksDispatch } from '../../contexts/TasksContext';
+import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 
 const TaskActions = ({ setShowModal }) => {
+  const { tasks, setSearchedTasks, setSearchText } = useTasks();
   const dispatch = useTasksDispatch();
+
+  //* event handlers
+  const handleSearchTasks = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    setSearchText(searchTerm);
+
+    if (searchTerm === '') {
+      setSearchedTasks([...tasks]); // Show all task if searchTerm is empty
+    } else {
+      const filtered = tasks.filter(
+        (task) => task.title.trim().toLowerCase().includes(searchTerm) // Filter tasks based on searchTerm
+      );
+      setSearchedTasks(filtered);
+    }
+  };
 
   const handleDeleteAllTask = () => {
     const confirm = window.confirm('Are you sure you want to DELETE ALL task?');
@@ -20,10 +36,11 @@ const TaskActions = ({ setShowModal }) => {
     <div className="items-center justify-between mb-14 sm:flex">
       <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
       <div className="flex items-center space-x-5">
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="flex">
             <div className="relative overflow-hidden rounded-lg text-gray-50 md:min-w-[380px] lg:min-w-[440px]">
               <input
+                onChange={handleSearchTasks}
                 type="search"
                 id="search-dropdown"
                 className="z-20 block w-full px-4 py-2 pr-10 bg-gray-800 focus:outline-none"
@@ -62,7 +79,8 @@ const TaskActions = ({ setShowModal }) => {
         </button>
         <button
           onClick={handleDeleteAllTask}
-          className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold"
+          className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold disabled:bg-red-300 disabled:cursor-not-allowed"
+          disabled={tasks.length === 0 ? true : false}
         >
           Delete All
         </button>

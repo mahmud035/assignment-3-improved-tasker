@@ -1,7 +1,7 @@
 const initialTasks = [
   {
     id: crypto.randomUUID(),
-    title: 'Learn Responsive Design',
+    title: 'Responsive Design',
     description:
       'Responsive web design is about creating web pages that look good on all devices!',
     tags: ['web', 'html', 'css'],
@@ -10,7 +10,7 @@ const initialTasks = [
   },
   {
     id: crypto.randomUUID(),
-    title: 'Learn JavaScript & TypeScript',
+    title: 'JavaScript & TypeScript',
     description:
       'Learn how to use JavaScript and TypeScript to create front-end applications with Vite.',
     tags: ['javascript', 'typescript', 'web'],
@@ -19,7 +19,7 @@ const initialTasks = [
   },
   {
     id: crypto.randomUUID(),
-    title: 'Learn React & its Ecosystem',
+    title: 'React & its Ecosystem',
     description: 'The library for web and native user interfaces.',
     tags: ['react', 'routing', 'data fetching'],
     priority: 'High',
@@ -27,7 +27,7 @@ const initialTasks = [
   },
   {
     id: crypto.randomUUID(),
-    title: 'Learn NEXT.js',
+    title: 'Learn NEXTjs',
     description:
       'The React Framework for the Web to create full-stack Web applications.',
     tags: ['nextjs', 'react', 'web'],

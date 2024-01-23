@@ -9,11 +9,14 @@ export const TasksDispatchContext = createContext(null);
 const TasksProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
   const [searchedTasks, setSearchedTasks] = useState([]);
+  const [searchText, setSearchText] = useState(null);
 
   const tasksInfo = {
     tasks,
     searchedTasks,
     setSearchedTasks,
+    searchText,
+    setSearchText,
   };
 
   return (

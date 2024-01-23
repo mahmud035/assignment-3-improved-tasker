@@ -1,9 +1,12 @@
 import { toast } from 'react-toastify';
-import { useTasksDispatch } from '../../contexts/TasksContext';
+import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 
 const Task = ({ task }) => {
+  const { searchText } = useTasks();
   const dispatch = useTasksDispatch();
   const { title, description, tags, priority, isFavorite } = task;
+
+  console.log(searchText);
 
   //* event handlers
   const handleToggleFavorite = () => {
@@ -50,7 +53,19 @@ const Task = ({ task }) => {
           <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
         </svg>
       </td>
-      <td>{title}</td>
+      <td>
+        {searchText
+          ? title.split(new RegExp(`(${searchText})`, 'i')).map((char, i) =>
+              char.toLowerCase() === searchText.toLowerCase() ? (
+                <span key={i} className="text-[#F5BF42]">
+                  {char}
+                </span>
+              ) : (
+                <span key={i}>{char}</span>
+              )
+            )
+          : title}
+      </td>
       <td>
         <div>{description}</div>
       </td>
