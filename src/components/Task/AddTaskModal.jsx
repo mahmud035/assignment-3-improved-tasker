@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import Footer from '../Footer';
-import NavWithSearch from '../NavWithSearch';
+import { useTasks } from '../../contexts/TasksContext';
 
 const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
   const [task, setTask] = useState(
@@ -15,9 +14,7 @@ const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
     }
   );
   const isAdd = Object.is(taskToUpdate, null);
-
-  console.log('task =>', task);
-  console.log('taskToUpdate =>', taskToUpdate);
+  const { searchText } = useTasks();
 
   //* event handlers
   const handleChange = (e) => {
@@ -46,14 +43,12 @@ const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
     ) {
       return toast.warn('Please Fill All The Fields!');
     } else {
-      handleAddAndEditTask(task, isAdd);
+      handleAddAndEditTask({ ...task }, isAdd, searchText);
     }
   };
 
   return (
-    <>
-      <NavWithSearch />
-
+    <div className="items-center justify-center w-full overflow-x-hidden h-screen bg-[#191D26]">
       <form
         onSubmit={handleSubmit}
         className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11"
@@ -139,9 +134,7 @@ const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
           </button>
         </div>
       </form>
-
-      <Footer />
-    </>
+    </div>
   );
 };
 

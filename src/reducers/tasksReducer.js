@@ -2,19 +2,21 @@ import { initialTasks } from '../data/tasks';
 
 // Initial State
 const initialState = {
-  tasks: [...initialTasks],
-  searchedTasks: [],
+  tasks: initialTasks,
 };
 
 // Reducer Function
 const tasksReducer = (state, action) => {
+  // console.log('state =>', state);
+  // console.log('action =>', action);
+
   switch (action.type) {
     case 'ADD_TASK': {
       return {
         tasks: [...state.tasks, action.payload],
       };
     }
-    case 'CHANGED': {
+    case 'CHANGED_TASK': {
       return {
         ...state,
         tasks: state.tasks.map((task) => {
@@ -27,9 +29,13 @@ const tasksReducer = (state, action) => {
       };
     }
     case 'DELETE_TASK': {
+      const filteredTasks = state.tasks.filter(
+        (task) => task.id !== action.payload.id
+      );
+
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+        tasks: filteredTasks,
       };
     }
     case 'DELETE_ALL_TASK': {
@@ -41,7 +47,7 @@ const tasksReducer = (state, action) => {
     case 'SEARCH_TASKS': {
       return {
         ...state,
-        searchedTasks: action.payload,
+        tasks: action.payload,
       };
     }
     default: {

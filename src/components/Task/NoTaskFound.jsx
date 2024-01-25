@@ -1,9 +1,5 @@
-const NoTaskFound = () => {
-  return (
-    <p className="py-4 text-3xl text-center text-red-500">
-      Task List is empty!
-    </p>
-  );
+const NoTaskFound = ({ message, className }) => {
+  return <p className={`py-4 text-3xl text-center ${className}`}>{message}</p>;
 };
 
 export default NoTaskFound;

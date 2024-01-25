@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 
-const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
-  const { tasks, setSearchText } = useTasks();
+const TaskActions = ({ setShowModal, setTaskToUpdate, initialTasks }) => {
+  const { tasks, searchText, setSearchText } = useTasks();
   const dispatch = useTasksDispatch();
 
   //* event handlers
@@ -13,12 +13,13 @@ const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
     if (searchTerm === '') {
       dispatch({
         type: 'SEARCH_TASKS',
-        payload: [], // Empty array means show all tasks
+        payload: initialTasks,
       });
     } else {
-      const filtered = tasks.filter((task) =>
+      const filtered = initialTasks.filter((task) =>
         task.title.toLowerCase().includes(searchTerm)
       );
+
       dispatch({
         type: 'SEARCH_TASKS',
         payload: filtered,
@@ -46,6 +47,7 @@ const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
           <div className="flex">
             <div className="relative overflow-hidden rounded-lg text-gray-50 md:min-w-[380px] lg:min-w-[440px]">
               <input
+                value={searchText}
                 onChange={handleSearchTasks}
                 type="search"
                 id="search-dropdown"
@@ -54,8 +56,6 @@ const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
                 required
               />
               <button
-                //* Not Needed
-                // onSubmit={(e) => handleSearchTasks(e)}
                 type="submit"
                 className="absolute top-0 h-full text-white right-2 rounded-e-lg md:right-4"
               >

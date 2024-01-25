@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 import { generateHexColor } from '../../utils/task-utility';
 
-const Task = ({ task, handleEditTask }) => {
+const Task = ({ task, handleEditTask, initialTasks, setInitialTasks }) => {
   const { searchText } = useTasks();
   const dispatch = useTasksDispatch();
   const { title, description, tags, priority, isFavorite } = task;
@@ -10,7 +10,7 @@ const Task = ({ task, handleEditTask }) => {
   //* event handlers
   const handleToggleFavorite = () => {
     dispatch({
-      type: 'CHANGED',
+      type: 'CHANGED_TASK',
       payload: {
         ...task,
         isFavorite: !isFavorite,
@@ -29,6 +29,7 @@ const Task = ({ task, handleEditTask }) => {
         },
       });
 
+      setInitialTasks(initialTasks.filter((t) => t.id !== task.id));
       toast.success('Delete Task Successfully!');
     }
   };

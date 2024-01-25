@@ -8,15 +8,12 @@ export const TasksDispatchContext = createContext(null);
 const TasksProvider = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, initialState);
   const tasks = state.tasks;
-  const searchedTasks = state.searchedTasks;
-  const [searchText, setSearchText] = useState(null);
+  const [searchText, setSearchText] = useState('');
 
   console.log('tasks =>', tasks);
-  console.log('searchedTasks =>', searchedTasks);
 
   const tasksInfo = {
     tasks,
-    searchedTasks,
     searchText,
     setSearchText,
   };

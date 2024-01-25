@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useTasks } from '../../contexts/TasksContext';
 import NoTaskFound from './NoTaskFound';
 import TaskActions from './TaskActions';
 import TaskList from './TaskList';
 
 const TaskBoard = ({ setShowModal, setTaskToUpdate, handleEditTask }) => {
-  const { tasks } = useTasks();
+  const { tasks, searchText } = useTasks();
+  const [initialTasks, setInitialTasks] = useState(tasks); // State variable to keep track of initial tasks before searching
 
   return (
     <>
@@ -14,16 +16,31 @@ const TaskBoard = ({ setShowModal, setTaskToUpdate, handleEditTask }) => {
             <TaskActions
               setShowModal={setShowModal}
               setTaskToUpdate={setTaskToUpdate}
+              initialTasks={initialTasks}
             />
 
-            {tasks?.length === 0 ? (
+            {tasks.length === 0 ? (
               <>
-                <NoTaskFound />
+                {searchText ? (
+                  // Show "No match found" message when search text is present
+                  <NoTaskFound
+                    message="No match task found!"
+                    className="text-[#F5BF42]"
+                  />
+                ) : (
+                  // Show "Task List is empty" message when no tasks exist
+                  <NoTaskFound
+                    message="Task List is empty!"
+                    className="text-red-500"
+                  />
+                )}
               </>
             ) : (
-              <>
-                <TaskList handleEditTask={handleEditTask} />
-              </>
+              <TaskList
+                handleEditTask={handleEditTask}
+                initialTasks={initialTasks}
+                setInitialTasks={setInitialTasks}
+              />
             )}
           </div>
         </div>
