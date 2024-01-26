@@ -10,7 +10,7 @@ const TasksProvider = ({ children }) => {
   const tasks = state.tasks;
   const [searchText, setSearchText] = useState('');
 
-  console.log('tasks =>', tasks);
+  // console.log('tasks =>', tasks);
 
   const tasksInfo = {
     tasks,

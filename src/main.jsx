@@ -6,8 +6,10 @@ import App from './App.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <div>
     <App />
     <ToastContainer position="top-center" autoClose={1500} />
-  </React.StrictMode>
+  </div>
+  // </React.StrictMode>
 );

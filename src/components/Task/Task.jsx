@@ -8,9 +8,9 @@ const Task = ({ task, handleEditTask, initialTasks, setInitialTasks }) => {
   const { title, description, tags, priority, isFavorite } = task;
 
   //* event handlers
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = (task) => {
     dispatch({
-      type: 'CHANGED_TASK',
+      type: 'TOGGLE_FAVORITE',
       payload: {
         ...task,
         isFavorite: !isFavorite,
@@ -36,7 +36,7 @@ const Task = ({ task, handleEditTask, initialTasks, setInitialTasks }) => {
 
   return (
     <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
-      <td onClick={handleToggleFavorite} className="cursor-pointer">
+      <td onClick={() => handleToggleFavorite(task)} className="cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="icon icon-tabler icon-tabler-star"

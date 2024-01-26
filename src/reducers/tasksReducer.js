@@ -50,6 +50,19 @@ const tasksReducer = (state, action) => {
         tasks: action.payload,
       };
     }
+    case 'TOGGLE_FAVORITE': {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            task.isFavorite = !task.isFavorite;
+            return task;
+          } else {
+            return task;
+          }
+        }),
+      };
+    }
     default: {
       throw Error('Unknown action: ' + action.type);
     }
