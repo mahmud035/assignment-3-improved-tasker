@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useTasks } from '../../contexts/TasksContext';
 
-const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
+const AddTaskModal = ({
+  setShowModal,
+  taskToUpdate = null,
+  handleAddAndEditTask,
+}) => {
   const [task, setTask] = useState(
     taskToUpdate || {
       id: crypto.randomUUID(),
@@ -37,9 +41,9 @@ const AddTaskModal = ({ setShowModal, taskToUpdate, handleAddAndEditTask }) => {
     if (
       task.title.trim() === '' ||
       task.description.trim() === '' ||
+      task.priority.trim() === '' ||
       task.tags.length === 0 ||
-      task.tags[0] === '' ||
-      task.priority.trim() === ''
+      task.tags[0] === ''
     ) {
       return toast.warn('Please Fill All The Fields!');
     } else {

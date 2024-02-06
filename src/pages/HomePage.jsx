@@ -19,14 +19,12 @@ const HomePage = () => {
         type: 'ADD_TASK',
         payload: newTask,
       });
-
       toast.success('Task Added Successfully!');
     } else {
       dispatch({
         type: 'CHANGED_TASK',
         payload: newTask,
       });
-
       toast.success('Task Updated Successfully!');
     }
 

@@ -1,30 +1,14 @@
 import { toast } from 'react-toastify';
 import { useTasks, useTasksDispatch } from '../../contexts/TasksContext';
 
-const TaskActions = ({ setShowModal, setTaskToUpdate, initialTasks }) => {
+const TaskActions = ({ setShowModal, setTaskToUpdate }) => {
   const { tasks, searchText, setSearchText } = useTasks();
   const dispatch = useTasksDispatch();
 
   //* event handlers
   const handleSearchTasks = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
+    const searchTerm = e.target.value.trim().toLowerCase();
     setSearchText(searchTerm);
-
-    if (searchTerm === '') {
-      dispatch({
-        type: 'SEARCH_TASKS',
-        payload: initialTasks,
-      });
-    } else {
-      const filtered = initialTasks.filter((task) =>
-        task.title.toLowerCase().includes(searchTerm)
-      );
-
-      dispatch({
-        type: 'SEARCH_TASKS',
-        payload: filtered,
-      });
-    }
   };
 
   const handleDeleteAllTask = () => {

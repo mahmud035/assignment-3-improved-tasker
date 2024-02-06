@@ -16,6 +16,19 @@ const tasksReducer = (state, action) => {
         tasks: [...state.tasks, action.payload],
       };
     }
+    case 'TOGGLE_FAVORITE': {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            task.isFavorite = !task.isFavorite;
+            return task;
+          } else {
+            return task;
+          }
+        }),
+      };
+    }
     case 'CHANGED_TASK': {
       return {
         ...state,
@@ -44,27 +57,8 @@ const tasksReducer = (state, action) => {
         tasks: [],
       };
     }
-    case 'SEARCH_TASKS': {
-      return {
-        ...state,
-        tasks: action.payload,
-      };
-    }
-    case 'TOGGLE_FAVORITE': {
-      return {
-        ...state,
-        tasks: state.tasks.map((task) => {
-          if (task.id === action.payload.id) {
-            task.isFavorite = !task.isFavorite;
-            return task;
-          } else {
-            return task;
-          }
-        }),
-      };
-    }
     default: {
-      throw Error('Unknown action: ' + action.type);
+      return state;
     }
   }
 };
