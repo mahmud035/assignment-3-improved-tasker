@@ -9,8 +9,9 @@ const TaskBoard = ({ setShowModal, setTaskToUpdate, handleEditTask }) => {
   //* How to show searchedTask and allTask based on searchText
   // IMPORTANT: যখন page initially load হচ্ছে, তখন searchBar এর মধ্যে কিছু নাই, মানে (blank) দিয়ে ফিল্টার/সার্চ হচ্ছে। তখন সবগুলো task return করবে। আবার যখন search করার পরে, searchBar Empty করে দেওয়া হবে, তখনও (blank) দিয়ে ফিল্টার/সার্চ হবে। অর্থাৎ, সবগুলো task return করবে। এতে করে search করার পরে, newTask Add করলে বা Task Edit করলে যে issue টা হচ্ছিলো (search empty করার পরে সবগুলো Task দেখাচ্ছিল না) সেটা Solve হয়ে যাবে।
 
+  // Derived State
   const searchResult = tasks.filter((task) =>
-    task.title.toLowerCase().includes(searchText.trim().toLowerCase())
+    task.title.trim().toLowerCase().includes(searchText.trim().toLowerCase())
   );
   // console.log(searchResult);
 
